@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain Attendance System</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        h2 {
+            color: #aa0eac;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h3 {
+            color: #aa0eac;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        h4 {
+            color: #5f6368;
+        }
+        .btn {
+            background-color: #aa0eac;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            display: block;
+            margin: 10px 0;
+        }
+        .btn-large {
+            padding: 15px 30px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 300px;
+            margin: 20px auto;
+        }
+        .btn:hover {
+            background-color: #aa0eac;
+        }
+        .btn-secondary {
+            background-color: #5f6368;
+        }
+        .btn-secondary:hover {
+            background-color: #494c50;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .wallet-status {
+            text-align: center;
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+        .role-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: white;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .role-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        .role-card h3 {
+            border-bottom: none;
+            margin-top: 10px;
+        }
+        .role-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        .welcome-screen {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .welcome-screen h1 {
+            margin-bottom: 20px;
+            color: #aa0eac;
+        }
+        .welcome-screen p {
+            margin-bottom: 40px;
+            color: #5f6368;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        .screen {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        #attendanceHistory {
+            list-style: none;
+            padding: 0;
+        }
+        #attendanceHistory li {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .attendance-record {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #aa0eac;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .connected {
+            color: #34a853;
+        }
+        .not-connected {
+            color: #ea4335;
+        }
+    </style>
+</head>
+<body>
+    <!-- Trang web mở đầu -->
+    <div id="welcomeScreen" class="container welcome-screen screen active">
+        <h1>🔗 Hệ Thống Điểm Danh Blockchain</h1>
+        <p>Chào mừng đến với hệ thống điểm danh dựa trên công nghệ Blockchain. Hệ thống này giúp quản lý và theo dõi điểm danh một cách an toàn và minh bạch.</p>
+        <button id="getStartedBtn" class="btn btn-large">Bắt Đầu</button>
+    </div>
+
+    <!-- Trang chọn vai trò -->
+    <div id="roleScreen" class="container screen">
+        <h2>Chọn Vai Trò Của Bạn</h2>
+        <div class="role-card" id="teacherRoleBtn">
+            <div class="role-icon">👨‍🏫</div>
+            <h3>Giảng Viên</h3>
+            <p>Quản lý lớp học, thêm sinh viên và xem báo cáo điểm danh</p>
+        </div>
+        <div class="role-card" id="studentRoleBtn">
+            <div class="role-icon">👨‍🎓</div>
+            <h3>Sinh Viên</h3>
+            <p>Điểm danh vào lớp học và xem lịch sử điểm danh của bạn</p>
+        </div>
+    </div>
+
+    <!-- Trang điểm danh chính -->
+    <div id="mainScreen" class="container screen">
+        <span id="backToRoleBtn" class="back-btn">← Quay lại chọn vai trò</span>
+        <h2>📌 Blockchain Attendance System</h2>
+
+        <button id="connectWallet" class="btn">🔗 Kết nối MetaMask</button>
+        <p id="walletAddress" class="wallet-status not-connected">🔴 Chưa kết nối</p>
+
+        <!-- Phần dành cho giáo viên -->
+        <div id="teacherSection" style="display: none;">
+            <h3>🔹 Giáo viên: Quản lý lớp học</h3>
+            <input type="text" id="className" placeholder="Nhập tên lớp học">
+            <button id="createClass" class="btn">Tạo lớp</button>
+            
+            <h4>📌 Danh sách lớp học</h4>
+            <select id="classListForAddingStudent">
+                <option value="" disabled selected>Chọn lớp</option>
+            </select>
+
+            <h4>➕ Thêm sinh viên vào lớp</h4>
+            <input type="text" id="studentAddress" placeholder="Nhập địa chỉ ví sinh viên">
+            <button id="addStudent" class="btn">Thêm học sinh</button>
+        </div>
+
+        <!-- Phần dành cho sinh viên -->
+        <div id="studentSection" style="display: none;">
+            <h3>🔹 Sinh viên: Điểm danh</h3>
+            <select id="classList">
+                <option value="" disabled selected>Chọn lớp</option>
+            </select>
+            <button id="markAttendance" class="btn">✅ Điểm danh</button>
+        </div>
+
+        <h3>📜 Lịch sử điểm danh</h3>
+        <button id="viewAttendance" class="btn">📅 Xem lịch sử</button>
+        <ul id="attendanceHistory"></ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script>
+        // Quản lý hiển thị các màn hình
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const roleScreen = document.getElementById('roleScreen');
+        const mainScreen = document.getElementById('mainScreen');
+        const teacherSection = document.getElementById('teacherSection');
+        const studentSection = document.getElementById('studentSection');
+        
+        // Xử lý các nút chuyển màn hình
+        document.getElementById('getStartedBtn').addEventListener('click', function() {
+            welcomeScreen.classList.remove('active');
+            roleScreen.classList.add('active');
+        });
+        
+        document.getElementById('teacherRoleBtn').addEventListener('click', function() {
+            roleScreen.classList.remove('active');
+            mainScreen.classList.add('active');
+            teacherSection.style.display = 'block';
+            studentSection.style.display = 'none';
+        });
+        
+        document.getElementById('studentRoleBtn').addEventListener('click', function() {
+            roleScreen.classList.remove('active');
+            mainScreen.classList.add('active');
+            teacherSection.style.display = 'none';
+            studentSection.style.display = 'block';
+        });
+        
+        document.getElementById('backToRoleBtn').addEventListener('click', function() {
+            mainScreen.classList.remove('active');
+            roleScreen.classList.add('active');
+        });
+
+        // Mã JavaScript cho chức năng kết nối MetaMask và điểm danh
+        document.getElementById('connectWallet').addEventListener('click', async function() {
+            if (window.ethereum) {
+                try {
+                    // Yêu cầu tài khoản
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const account = accounts[0];
+                    document.getElementById('walletAddress').textContent = '🟢 Đã kết nối: ' + account.substring(0, 6) + '...' + account.substring(38);
+                    document.getElementById('walletAddress').classList.remove('not-connected');
+                    document.getElementById('walletAddress').classList.add('connected');
+                    
+                    // Thêm code để tải các lớp học từ smart contract
+                    loadClasses();
+                } catch (error) {
+                    console.error(error);
+                    alert('Có lỗi khi kết nối với MetaMask!');
+                }
+            } else {
+                alert('Vui lòng cài đặt MetaMask để sử dụng ứng dụng này!');
+            }
+        });
+
+        // Giả lập tải lớp học (sẽ được thay thế bằng tương tác với smart contract)
+        function loadClasses() {
+            const classListSelectors = document.querySelectorAll('#classList, #classListForAddingStudent');
+            const demoClasses = [
+                { id: 'class1', name: 'Nhập môn Blockchain' },
+                { id: 'class2', name: 'Lập trình Web 3.0' },
+                { id: 'class3', name: 'Smart Contract Development' }
+            ];
+            
+            classListSelectors.forEach(selector => {
+                // Xóa các tùy chọn cũ trừ tùy chọn mặc định
+                while (selector.options.length > 1) {
+                    selector.remove(1);
+                }
+                
+                // Thêm các lớp học mẫu
+                demoClasses.forEach(cls => {
+                    const option = document.createElement('option');
+                    option.value = cls.id;
+                    option.textContent = cls.name;
+                    selector.appendChild(option);
+                });
+            });
+        }
+
+        // Xử lý tạo lớp học
+        document.getElementById('createClass').addEventListener('click', function() {
+            const className = document.getElementById('className').value;
+            if (!className) {
+                alert('Vui lòng nhập tên lớp học!');
+                return;
+            }
+            
+            // Giả lập tạo lớp thành công
+            alert(`Đã tạo lớp học "${className}" thành công!`);
+            document.getElementById('className').value = '';
+            
+            // Tải lại danh sách lớp
+            loadClasses();
+        });
+
+        // Xử lý thêm sinh viên
+        document.getElementById('addStudent').addEventListener('click', function() {
+            const classId = document.getElementById('classListForAddingStudent').value;
+            const studentAddress = document.getElementById('studentAddress').value;
+            
+            if (!classId) {
+                alert('Vui lòng chọn lớp học!');
+                return;
+            }
+            
+            if (!studentAddress) {
+                alert('Vui lòng nhập địa chỉ ví của sinh viên!');
+                return;
+            }
+            
+            // Kiểm tra địa chỉ Ethereum đơn giản
+            if (!studentAddress.startsWith('0x') || studentAddress.length !== 42) {
+                alert('Địa chỉ ví không hợp lệ!');
+                return;
+            }
+            
+            // Giả lập thêm sinh viên thành công
+            alert(`Đã thêm sinh viên có địa chỉ ${studentAddress.substring(0, 6)}...${studentAddress.substring(38)} vào lớp!`);
+            document.getElementById('studentAddress').value = '';
+        });
+
+        // Xử lý điểm danh
+        document.getElementById('markAttendance').addEventListener('click', function() {
+            const classId = document.getElementById('classList').value;
+            
+            if (!classId) {
+                alert('Vui lòng chọn lớp học để điểm danh!');
+                return;
+            }
+            
+            // Giả lập điểm danh thành công
+            const now = new Date();
+            const dateTimeStr = now.toLocaleString();
+            alert(`Đã điểm danh thành công vào lúc ${dateTimeStr}!`);
+            
+            // Cập nhật lịch sử điểm danh
+            const historyItem = document.createElement('li');
+            const className = document.querySelector(`#classList option[value="${classId}"]`).textContent;
+            historyItem.innerHTML = `<div class="attendance-record"><span><strong>${className}</strong> - Điểm danh thành công</span> <span>${dateTimeStr}</span></div>`;
+            document.getElementById('attendanceHistory').prepend(historyItem);
+        });
+
+        // Xử lý xem lịch sử điểm danh
+        document.getElementById('viewAttendance').addEventListener('click', function() {
+            // Giả lập tải lịch sử điểm danh
+            const history = document.getElementById('attendanceHistory');
+            
+            if (history.children.length === 0) {
+                const historyItem = document.createElement('li');
+                historyItem.textContent = 'Chưa có lịch sử điểm danh';
+                history.appendChild(historyItem);
+            }
+            
+            // Cuộn đến phần lịch sử
+            history.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

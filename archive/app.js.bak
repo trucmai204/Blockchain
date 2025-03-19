@@ -1,0 +1,1119 @@
+const contractABI = [
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "classId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isPresent",
+        "type": "bool"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      }
+    ],
+    "name": "AttendanceMarked",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "classId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "teacher",
+        "type": "address"
+      }
+    ],
+    "name": "ClassCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "classId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "student",
+        "type": "address"
+      }
+    ],
+    "name": "StudentAdded",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_classId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_student",
+        "type": "address"
+      }
+    ],
+    "name": "addStudent",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "classes",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "teacher",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "classCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      }
+    ],
+    "name": "createClass",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_classId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_student",
+        "type": "address"
+      }
+    ],
+    "name": "getAttendanceCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_classId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_student",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "index",
+        "type": "uint256"
+      }
+    ],
+    "name": "getAttendanceRecord",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getTotalClasses",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_classId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_student",
+        "type": "address"
+      }
+    ],
+    "name": "isStudentInClass",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_classId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "_isPresent",
+        "type": "bool"
+      }
+    ],
+    "name": "markAttendance",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+];
+const contractAddress = "0xbB6dfDc18B6CfA61DD75028aDb2687FF566BC2B5";
+
+let web3;
+let contract;
+let accounts;
+let currentRole = null;
+let isMetaMaskConnected = false;
+
+// Screen Management
+const screens = {
+  welcome: document.getElementById('welcomeScreen'),
+  role: document.getElementById('roleScreen'),
+  main: document.getElementById('mainScreen')
+};
+
+const sections = {
+  teacher: document.getElementById('teacherSection'),
+  student: document.getElementById('studentSection')
+};
+
+function showScreen(screenName) {
+  Object.values(screens).forEach(screen => screen.classList.remove('active'));
+  screens[screenName].classList.add('active');
+}
+
+// Utility Functions
+const showLoading = () => document.querySelector('.loading-overlay').classList.add('active');
+const hideLoading = () => document.querySelector('.loading-overlay').classList.remove('active');
+
+const showToast = (message, type = 'success') => {
+  const toast = document.getElementById('toast');
+  const toastMessage = document.getElementById('toastMessage');
+
+  toast.className = 'toast';
+  toast.classList.add(type);
+  toastMessage.textContent = message;
+
+  toast.style.display = 'block';
+  setTimeout(() => {
+    toast.style.display = 'none';
+  }, 3000);
+};
+
+const formatAddress = (address) => {
+  return `${address.substring(0, 6)}...${address.substring(38)}`;
+};
+
+const formatDate = (timestamp) => {
+  return new Date(timestamp * 1000).toLocaleString('vi-VN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+};
+
+// Initialize Application
+document.addEventListener("DOMContentLoaded", () => {
+  initializeEventListeners();
+  checkMetaMaskConnection();
+  initializeStorage();
+});
+
+function initializeEventListeners() {
+  // Navigation buttons
+  document.getElementById('getStartedBtn').addEventListener('click', () => {
+    showScreen('role');
+  });
+
+  document.getElementById('backToRoleBtn').addEventListener('click', () => {
+    showScreen('role');
+    currentRole = null;
+    sections.teacher.style.display = 'none';
+    sections.student.style.display = 'none';
+  });
+
+  // Role selection
+  document.getElementById('teacherRoleBtn').addEventListener('click', async () => {
+    currentRole = 'teacher';
+    showScreen('main');
+    sections.teacher.style.display = 'block';
+    sections.student.style.display = 'none';
+
+    if (isMetaMaskConnected) {
+      await loadTeacherData();
+    } else {
+      showToast('Vui lòng kết nối MetaMask trước!', 'error');
+    }
+  });
+
+  document.getElementById('studentRoleBtn').addEventListener('click', async () => {
+    currentRole = 'student';
+    showScreen('main');
+    sections.teacher.style.display = 'none';
+    sections.student.style.display = 'block';
+
+    if (isMetaMaskConnected) {
+      await loadStudentData();
+    } else {
+      showToast('Vui lòng kết nối MetaMask trước!', 'error');
+    }
+  });
+
+  // MetaMask connection
+  document.getElementById('connectWallet').addEventListener('click', connectWallet);
+
+  // Teacher functions
+  document.getElementById('createClass')?.addEventListener('click', createClass);
+  document.getElementById('classListForTeacher')?.addEventListener('change', async (e) => {
+    if (e.target.value) {
+      await loadClassDetails(e.target.value);
+    }
+  });
+
+  // Student functions
+  document.getElementById('registerClass')?.addEventListener('click', registerForClass);
+  document.getElementById('markAttendance')?.addEventListener('click', markAttendance);
+  document.getElementById('viewAttendance')?.addEventListener('click', viewAttendance);
+
+  // Listen for storage changes to keep data in sync across views
+  window.addEventListener('storage', async (e) => {
+    if (e.key === 'classes' && isMetaMaskConnected) {
+      if (currentRole === 'student') {
+        await loadStudentData();
+      } else if (currentRole === 'teacher') {
+        await loadTeacherData();
+        const currentClassId = document.getElementById('classListForTeacher').value;
+        if (currentClassId) {
+          await loadClassDetails(currentClassId);
+        }
+      }
+    }
+  });
+}
+
+// MetaMask Connection
+async function checkMetaMaskConnection() {
+  if (window.ethereum) {
+    web3 = new Web3(window.ethereum);
+    try {
+      accounts = await web3.eth.getAccounts();
+      if (accounts.length > 0) {
+        isMetaMaskConnected = true;
+        contract = new web3.eth.Contract(contractABI, contractAddress);
+        document.getElementById('walletAddress').innerHTML = `
+          <i class="fas fa-check-circle"></i> Đã kết nối: ${formatAddress(accounts[0])}
+        `;
+        document.getElementById('walletAddress').classList.remove('not-connected');
+        document.getElementById('walletAddress').classList.add('connected');
+      }
+    } catch (error) {
+      console.error('Error checking MetaMask connection:', error);
+    }
+  }
+}
+
+async function connectWallet() {
+  if (!window.ethereum) {
+    showToast('Vui lòng cài đặt MetaMask!', 'error');
+    return;
+  }
+
+  try {
+    showLoading();
+    accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    isMetaMaskConnected = true;
+
+    web3 = new Web3(window.ethereum);
+    contract = new web3.eth.Contract(contractABI, contractAddress);
+
+    document.getElementById('walletAddress').innerHTML = `
+      <i class="fas fa-check-circle"></i> Đã kết nối: ${formatAddress(accounts[0])}
+    `;
+    document.getElementById('walletAddress').classList.remove('not-connected');
+    document.getElementById('walletAddress').classList.add('connected');
+
+    showToast('Kết nối MetaMask thành công!', 'success');
+
+    // Load role-specific data if role is selected
+    if (currentRole === 'teacher') {
+      await loadTeacherData();
+    } else if (currentRole === 'student') {
+      await loadStudentData();
+    }
+  } catch (error) {
+    console.error('Error connecting to MetaMask:', error);
+    showToast('Lỗi kết nối MetaMask!', 'error');
+  } finally {
+    hideLoading();
+  }
+}
+
+// Storage Management
+function initializeStorage() {
+  if (!localStorage.getItem('pendingRegistrations')) {
+    localStorage.setItem('pendingRegistrations', JSON.stringify({}));
+  }
+  if (!localStorage.getItem('approvedStudents')) {
+    localStorage.setItem('approvedStudents', JSON.stringify({}));
+  }
+  if (!localStorage.getItem('classes')) {
+    const defaultClasses = [
+      {
+        id: 1,
+        name: 'Blockchain',
+        teacher: null,
+        students: [],
+        attendance: []
+      },
+      {
+        id: 2,
+        name: 'Smart Contract',
+        teacher: null,
+        students: [],
+        attendance: []
+      },
+      {
+        id: 3,
+        name: 'Web3',
+        teacher: null,
+        students: [],
+        attendance: []
+      }
+    ];
+    localStorage.setItem('classes', JSON.stringify(defaultClasses));
+  }
+}
+
+// Teacher Functions
+async function loadTeacherData() {
+  if (!isMetaMaskConnected) return;
+
+  try {
+    showLoading();
+    const classes = JSON.parse(localStorage.getItem('classes') || '[]');
+    const teacherSelect = document.getElementById('classListForTeacher');
+    teacherSelect.innerHTML = '<option value="" disabled selected>Chọn lớp</option>';
+
+    classes.forEach(classData => {
+      if (!classData.teacher || classData.teacher.toLowerCase() === accounts[0].toLowerCase()) {
+        const option = new Option(classData.name, classData.id);
+        teacherSelect.appendChild(option);
+      }
+    });
+
+    if (teacherSelect.options.length > 1) {
+      teacherSelect.selectedIndex = 1;
+      await loadClassDetails(teacherSelect.value);
+    }
+  } catch (error) {
+    console.error('Error loading teacher data:', error);
+    showToast('Lỗi khi tải dữ liệu giáo viên!', 'error');
+  } finally {
+    hideLoading();
+  }
+}
+
+async function loadClassDetails(classId) {
+  if (!isMetaMaskConnected) return;
+
+  try {
+    showLoading();
+    const classes = JSON.parse(localStorage.getItem('classes') || '[]');
+    const classData = classes.find(c => c.id.toString() === classId.toString());
+
+    if (!classData) {
+      showToast('Không tìm thấy thông tin lớp học!', 'error');
+      return;
+    }
+
+    const enrolledStudents = document.getElementById('enrolledStudents');
+    enrolledStudents.innerHTML = ''; // Clear existing content
+
+    // Class actions section
+    const classActions = document.createElement('div');
+    classActions.className = 'class-actions';
+    classActions.innerHTML = `
+      <button class="btn btn-danger" onclick="deleteClass(${classId})">
+        <i class="fas fa-trash"></i> Xóa Lớp Học
+      </button>
+    `;
+    enrolledStudents.appendChild(classActions);
+
+    // Pending registrations section
+    const pendingRegistrations = JSON.parse(localStorage.getItem('pendingRegistrations') || '{}');
+    const pendingRequests = (pendingRegistrations[classId] || []).filter(r => r.status === 'pending');
+
+    if (pendingRequests.length > 0) {
+      const pendingSection = document.createElement('div');
+      pendingSection.className = 'pending-section';
+      pendingSection.innerHTML = `
+        <h4><i class="fas fa-user-clock"></i> Yêu cầu đăng ký chờ duyệt (${pendingRequests.length})</h4>
+        <div class="pending-list">
+          ${pendingRequests.map(request => `
+            <div class="pending-item">
+              <div class="student-info">
+                <i class="fas fa-user"></i>
+                <span>${formatAddress(request.studentAddress)}</span>
+                <small>Yêu cầu lúc: ${new Date(request.timestamp).toLocaleString('vi-VN')}</small>
+              </div>
+              <div class="actions">
+                <button class="btn btn-success" onclick="approveRegistration('${classId}', '${request.studentAddress}')">
+                  <i class="fas fa-check"></i> Chấp nhận
+                </button>
+                <button class="btn btn-danger" onclick="rejectRegistration('${classId}', '${request.studentAddress}')">
+                  <i class="fas fa-times"></i> Từ chối
+                </button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      enrolledStudents.appendChild(pendingSection);
+    }
+
+    // Enrolled students section
+    const enrolledSection = document.createElement('div');
+    enrolledSection.className = 'enrolled-section';
+
+    if (!classData.students || classData.students.length === 0) {
+      enrolledSection.innerHTML = `
+        <h4><i class="fas fa-users"></i> Sinh viên trong lớp</h4>
+        <div class="list-empty-state">
+          <i class="fas fa-users-slash"></i>
+          <p>Chưa có sinh viên trong lớp</p>
+        </div>
+      `;
+      enrolledStudents.appendChild(enrolledSection);
+      return;
+    }
+
+    let attendanceHTML = '<div class="attendance-list">';
+    for (const studentData of classData.students) {
+      const attendance = classData.attendance.filter(a => a.studentAddress === studentData.address) || [];
+      if (attendance.length > 0) {
+        const lastAttendance = attendance[attendance.length - 1];
+        attendanceHTML += `
+          <div class="attendance-item">
+            <div class="student-info">
+              <i class="fas fa-user-graduate"></i>
+              <span>Địa chỉ ví: ${formatAddress(studentData.address)}</span>
+            </div>
+            <div class="attendance-details">
+              <div><i class="fas fa-calendar-check"></i> Số lần điểm danh: ${attendance.length}</div>
+              <div><i class="fas fa-clock"></i> Lần cuối: ${formatDate(lastAttendance.timestamp)}</div>
+            </div>
+          </div>
+        `;
+      }
+    }
+    attendanceHTML += '</div>';
+    enrolledStudents.innerHTML += attendanceHTML;
+
+  } catch (error) {
+    console.error('Error loading class details:', error);
+    showToast('Lỗi khi tải thông tin lớp học!', 'error');
+  } finally {
+    hideLoading();
+  }
+}
+
+async function deleteClass(classId) {
+  if (!isMetaMaskConnected) {
+    showToast('Vui lòng kết nối MetaMask trước!', 'error');
+    return;
+  }
+
+  if (!confirm('Bạn có chắc chắn muốn xóa lớp học này không?')) {
+    return;
+  }
+
+  try {
+    showLoading();
+    const classes = JSON.parse(localStorage.getItem('classes') || '[]');
+    const classIndex = classes.findIndex(c => c.id === classId);
+
+    if (classIndex === -1) {
+      showToast('Không tìm thấy lớp học!', 'error');
+      return;
+    }
+
+    // Verify teacher is the owner
+    if (classes[classIndex].teacher?.toLowerCase() !== accounts[0].toLowerCase()) {
+      showToast('Bạn không có quyền xóa lớp học này!', 'error');
+      return;
+    }
+
+    // Remove the class
+    classes.splice(classIndex, 1);
+    localStorage.setItem('classes', JSON.stringify(classes));
+
+    showToast('Xóa lớp học thành công!', 'success');
+
+    // Refresh teacher data
+    await loadTeacherData();
+
+  } catch (error) {
+    console.error('Error deleting class:', error);
+    showToast('Lỗi khi xóa lớp học!', 'error');
+  } finally {
+    hideLoading();
+  }
+}
+
+async function createClass() {
+  if (!isMetaMaskConnected) {
+    showToast('Vui lòng kết nối MetaMask trước!', 'error');
+    return;
+  }
+
+  const name = document.getElementById('className')?.value.trim();
+  const classCode = document.getElementById('classCode')?.value.trim(); // Thêm input mới cho mã lớp
+
+  if (!name || !classCode) {
+    showToast('Vui lòng nhập đầy đủ thông tin lớp học!', 'error');
+    return;
+  }
+
+  try {
+    showLoading();
+    const classes = JSON.parse(localStorage.getItem('classes') || '[]');
+
+    // Kiểm tra mã lớp đã tồn tại chưa
+    if (classes.some(c => c.classCode === classCode)) {
+      showToast('Mã lớp này đã tồn tại!', 'error');
+      return;
+    }
+
+    const maxId = classes.reduce((max, c) => Math.max(max, Number(c.id) || 0), 0);
+    const newClassId = maxId + 1;
+
+    const newClass = {
+      id: newClassId,
+      classCode: classCode, // Thêm mã lớp vào object
+      name: name,
+      teacher: accounts[0],
+      students: [],
+      attendance: []
+    };
+
+    classes.push(newClass);
+    localStorage.setItem('classes', JSON.stringify(classes));
+
+    showToast(`Tạo lớp học thành công! Mã lớp: ${classCode}`, 'success');
+    document.getElementById('className').value = '';
+    document.getElementById('classCode').value = '';
+
+    await loadTeacherData();
+
+  } catch (error) {
+    console.error('Error creating class:', error);
+    showToast('Lỗi khi tạo lớp học!', 'error');
+  } finally {
+    hideLoading();
+  }
+}
+
+// Student Functions
+async function loadStudentData() {
+  if (!isMetaMaskConnected) return;
+
+  try {
+    showLoading();
+    const registrationStatus = document.getElementById('registrationStatus');
+    const myClasses = document.getElementById('myClasses');
+    const noClassesMessage = myClasses.querySelector('.no-classes-message');
+    const classList = document.getElementById('classList');
+    const classAttendanceSection = document.querySelector('.class-attendance-section');
+
+    // Load data
+    const classes = JSON.parse(localStorage.getItem('classes') || '[]');
+    const pendingRegistrations = JSON.parse(localStorage.getItem('pendingRegistrations') || '{}');
+
+    // Check pending registrations
+    let hasPendingRequests = false;
+    let pendingHTML = '<div class="pending-registrations">';
+
+    Object.entries(pendingRegistrations).forEach(([classId, requests]) => {
+      const pendingRequest = requests.find(r =>
+        r.studentAddress.toLowerCase() === accounts[0].toLowerCase() &&
+        r.status === 'pending'
+      );
+
+      if (pendingRequest) {
+        hasPendingRequests = true;
+        const className = classes.find(c => c.id.toString() === classId)?.name;
+        pendingHTML += `
+          <div class="pending-request">
+            <i class="fas fa-hourglass-half"></i>
+            <div class="request-info">
+              <strong>${className}</strong>
+              <small>Đã gửi: ${new Date(pendingRequest.timestamp).toLocaleString('vi-VN')}</small>
+            </div>
+            <span class="status pending">Đang chờ duyệt</span>
+          </div>
+        `;
+      }
+    });
+    pendingHTML += '</div>';
+
+    registrationStatus.innerHTML = hasPendingRequests ? pendingHTML : `
+      <div class="list-empty-state">
+        <i class="fas fa-inbox"></i>
+        <p>Không có đăng ký nào đang chờ duyệt</p>
+      </div>
+    `;
+
+    // Get enrolled classes
+    const studentClasses = classes.filter(c =>
+      c.students?.some(s => s.address?.toLowerCase() === accounts[0].toLowerCase())
+    );
+
+    // Update classes UI
+    if (studentClasses.length === 0 && !hasPendingRequests) {
+      noClassesMessage.style.display = 'block';
+      classAttendanceSection.style.display = 'none';
+    } else {
+      noClassesMessage.style.display = 'none';
+      classAttendanceSection.style.display = 'block';
+
+      classList.innerHTML = '<option value="" disabled selected>Chọn lớp</option>';
+      studentClasses.forEach(classData => {
+        const option = new Option(classData.name, classData.id);
+        classList.appendChild(option);
+      });
+    }
+
+    // Show registration status
+    registrationStatus.innerHTML = `
+      <div class="list-empty-state">
+        <i class="fas fa-inbox"></i>
+        <p>Không có đăng ký nào đang chờ duyệt</p>
+      </div>
+    `;
+  } catch (error) {
+    console.error('Error loading student data:', error);
+    showToast('Lỗi khi tải dữ liệu sinh viên!', 'error');
+  } finally {
+    hideLoading();
+  }
+}
+
+async function registerForClass() {
+  if (!isMetaMaskConnected) {
+    showToast('Vui lòng kết nối MetaMask trước!', 'error');
+    return;
+  }
+
+  const classCode = document.getElementById('classCodeInput')?.value.trim();
+  if (!classCode) {
+    showToast('Vui lòng nhập mã lớp!', 'error');
+    return;
+  }
+
+  try {
+    showLoading();
+    const classes = JSON.parse(localStorage.getItem('classes') || '[]');
+
+    // Tìm lớp học theo mã lớp hoặc ID
+    const classData = classes.find(c =>
+      c.classCode === classCode || c.id.toString() === classCode
+    );
+
+    if (!classData) {
+      showToast('Không tìm thấy lớp học! Vui lòng kiểm tra lại mã lớp.', 'error');
+      return;
+    }
+
+    // Check if student is already in the class
+    if (classData.students?.some(s => s.address?.toLowerCase() === accounts[0].toLowerCase())) {
+      showToast('Bạn đã đăng ký vào lớp này!', 'error');
+      return;
+    }
+
+    // Instead of directly adding student, create a pending registration
+    const pendingRegistrations = JSON.parse(localStorage.getItem('pendingRegistrations') || '{}');
+
+    // Initialize array for this class if needed
+    if (!pendingRegistrations[classData.id]) {
+      pendingRegistrations[classData.id] = [];
+    }
+
+    // Check if already has a pending request
+    if (pendingRegistrations[classData.id].some(r =>
+      r.studentAddress.toLowerCase() === accounts[0].toLowerCase() && r.status === 'pending'
+    )) {
+      showToast('Bạn đã có yêu cầu đăng ký đang chờ duyệt!', 'error');
+      return;
+    }
+
+    // Add new registration request
+    pendingRegistrations[classData.id].push({
+      studentAddress: accounts[0],
+      className: classData.name,
+      timestamp: Date.now(),
+      status: 'pending'
+    });
+
+    // Save pending registrations
+    localStorage.setItem('pendingRegistrations', JSON.stringify(pendingRegistrations));
+
+    // Update registration status immediately without full reload
+    const registrationStatus = document.getElementById('registrationStatus');
+    registrationStatus.innerHTML = `
+      <div class="pending-registrations">
+        <div class="pending-request">
+          <i class="fas fa-hourglass-half"></i>
+          <div class="request-info">
+            <strong>${classData.name}</strong>
+            <small>Đã gửi: ${new Date().toLocaleString('vi-VN')}</small>
+          </div>
+          <span class="status pending">Đang chờ duyệt</span>
+        </div>
+      </div>
+    `;
+
+    showToast('Đã gửi yêu cầu đăng ký! Vui lòng chờ giảng viên phê duyệt.', 'success');
+    document.getElementById('classCodeInput').value = '';
+
+  } catch (error) {
+    console.error('Error registering for class:', error);
+    showToast('Lỗi khi đăng ký lớp!', 'error');
+  } finally {
+    hideLoading();
+  }
+}
+
+async function markAttendance() {
+  if (!isMetaMaskConnected) {
+    showToast('Vui lòng kết nối MetaMask trước!', 'error');
+    return;
+  }
+
+  const classId = document.getElementById('classList')?.value;
+  if (!classId) {
+    showToast('Vui lòng chọn lớp học!', 'error');
+    return;
+  }
+
+  try {
+    showLoading();
+
+    // Get classes from localStorage
+    const classes = JSON.parse(localStorage.getItem('classes') || '[]');
+    const classIndex = classes.findIndex(c => c.id.toString() === classId);
+
+    if (classIndex === -1) {
+      showToast('Không tìm thấy lớp học!', 'error');
+      return;
+    }
+
+    const classData = classes[classIndex];
+
+    // Add attendance record
+    if (!classData.attendance) classData.attendance = [];
+    classData.attendance.push({
+      studentAddress: accounts[0],
+      timestamp: Date.now(),
+      isPresent: true
+    });
+
+    // Save back to localStorage
+    localStorage.setItem('classes', JSON.stringify(classes));
+
+    showToast('Điểm danh thành công!', 'success');
+
+    // Update attendance history
+    const historyItem = document.createElement('li');
+    const className = document.querySelector(`#classList option[value="${classId}"]`).textContent;
+    historyItem.innerHTML = `
+      <div class="attendance-record animate__animated animate__fadeInDown">
+        <span><i class="fas fa-check-circle"></i> ${className}</span>
+        <span>${new Date().toLocaleString('vi-VN')}</span>
+      </div>
+    `;
+    document.getElementById('attendanceHistory').prepend(historyItem);
+  } catch (error) {
+    console.error('Error marking attendance:', error);
+    showToast('Lỗi khi điểm danh!', 'error');
+  } finally {
+    hideLoading();
+  }
+}
+
+async function viewAttendance() {
+  if (!isMetaMaskConnected) {
+    showToast('Vui lòng kết nối MetaMask trước!', 'error');
+    return;
+  }
+
+  try {
+    showLoading();
+    const history = document.getElementById('attendanceHistory');
+    const classes = JSON.parse(localStorage.getItem('classes') || '[]');
+
+    let attendanceHTML = '';
+    let hasAttendance = false;
+
+    // Get all attendance records for the current student
+    for (const classData of classes) {
+      const studentAttendance = classData.attendance?.filter(a =>
+        a.studentAddress?.toLowerCase() === accounts[0].toLowerCase()
+      ) || [];
+
+      for (const record of studentAttendance) {
+        hasAttendance = true;
+        attendanceHTML = `
+          <li>
+            <div class="attendance-record animate__animated animate__fadeInDown">
+              <span><i class="fas fa-check-circle"></i> ${classData.name}</span>
+              <span>${formatDate(Math.floor(record.timestamp / 1000))}</span>
+            </div>
+          </li>
+        ` + attendanceHTML;
+      }
+    }
+
+    history.innerHTML = hasAttendance ? attendanceHTML : `
+      <div class="list-empty-state">
+        <i class="fas fa-calendar-times"></i>
+        <p>Chưa có lịch sử điểm danh</p>
+      </div>
+    `;
+  } catch (error) {
+    console.error('Error viewing attendance:', error);
+    showToast('Lỗi khi xem lịch sử điểm danh!', 'error');
+  } finally {
+    hideLoading();
+  }
+}
+
+// Registration approval functions
+async function approveRegistration(classId, studentAddress) {
+  if (!isMetaMaskConnected) return;
+
+  try {
+    showLoading();
+
+    // Get current data
+    const classes = JSON.parse(localStorage.getItem('classes') || '[]');
+    const pendingRegistrations = JSON.parse(localStorage.getItem('pendingRegistrations') || '{}');
+
+    // Find the class
+    const classData = classes.find(c => c.id.toString() === classId.toString());
+    if (!classData) {
+      showToast('Không tìm thấy lớp học!', 'error');
+      return;
+    }
+
+    // Verify teacher is the owner
+    if (classData.teacher?.toLowerCase() !== accounts[0].toLowerCase()) {
+      showToast('Bạn không có quyền phê duyệt cho lớp này!', 'error');
+      return;
+    }
+
+    // Add student to class
+    if (!classData.students) classData.students = [];
+    classData.students.push({
+      address: studentAddress,
+      joinedAt: Date.now(),
+      status: 'approved'
+    });
+
+    // Update pending registration status
+    const pendingRequests = pendingRegistrations[classId] || [];
+    const requestIndex = pendingRequests.findIndex(
+      r => r.studentAddress.toLowerCase() === studentAddress.toLowerCase()
+    );
+
+    if (requestIndex !== -1) {
+      pendingRequests[requestIndex].status = 'approved';
+      pendingRegistrations[classId] = pendingRequests;
+    }
+
+    // Save changes
+    localStorage.setItem('classes', JSON.stringify(classes));
+    localStorage.setItem('pendingRegistrations', JSON.stringify(pendingRegistrations));
+
+    showToast('Đã chấp nhận sinh viên vào lớp!', 'success');
+    await loadClassDetails(classId);
+
+  } catch (error) {
+    console.error('Error approving registration:', error);
+    showToast('Lỗi khi phê duyệt đăng ký!', 'error');
+  } finally {
+    hideLoading();
+  }
+}
+
+async function rejectRegistration(classId, studentAddress) {
+  if (!isMetaMaskConnected) return;
+
+  try {
+    showLoading();
+
+    const pendingRegistrations = JSON.parse(localStorage.getItem('pendingRegistrations') || '{}');
+    const pendingRequests = pendingRegistrations[classId] || [];
+
+    const requestIndex = pendingRequests.findIndex(
+      r => r.studentAddress.toLowerCase() === studentAddress.toLowerCase()
+    );
+
+    if (requestIndex !== -1) {
+      pendingRequests[requestIndex].status = 'rejected';
+      pendingRegistrations[classId] = pendingRequests;
+      localStorage.setItem('pendingRegistrations', JSON.stringify(pendingRegistrations));
+    }
+
+    showToast('Đã từ chối yêu cầu đăng ký!', 'success');
+    await loadClassDetails(classId);
+
+  } catch (error) {
+    console.error('Error rejecting registration:', error);
+    showToast('Lỗi khi từ chối đăng ký!', 'error');
+  } finally {
+    hideLoading();
+  }
+}
+
+// Event handlers for MetaMask
+if (window.ethereum) {
+  window.ethereum.on('accountsChanged', async (newAccounts) => {
+    if (newAccounts.length === 0) {
+      isMetaMaskConnected = false;
+      document.getElementById('walletAddress').innerHTML = '<i class="fas fa-circle"></i> Chưa kết nối';
+      document.getElementById('walletAddress').classList.remove('connected');
+      document.getElementById('walletAddress').classList.add('not-connected');
+      showToast('Đã ngắt kết nối MetaMask!', 'error');
+    } else {
+      accounts = newAccounts;
+      isMetaMaskConnected = true;
+      if (currentRole) {
+        currentRole === 'teacher' ? loadTeacherData() : loadStudentData();
+      }
+    }
+  });
+
+  window.ethereum.on('chainChanged', () => {
+    window.location.reload();
+  });
+}

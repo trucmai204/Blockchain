@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập / Đăng ký - Blockchain Attendance System</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #aa0eac 0%, #8e44ad 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            margin: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            cursor: pointer;
+            color: #666;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: #aa0eac;
+            border-bottom: 2px solid #aa0eac;
+            margin-bottom: -2px;
+        }
+
+        .form-container {
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        h2 {
+            color: #aa0eac;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #aa0eac;
+        }
+
+        .btn {
+            background-color: #aa0eac;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #8e44ad;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            color: #27ae60;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" data-tab="login">Đăng nhập</div>
+            <div class="tab" data-tab="register">Đăng ký</div>
+        </div>
+
+        <!-- Form đăng nhập -->
+        <div class="form-container active" id="loginForm">
+            <h2>Đăng nhập</h2>
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required>
+                    <div class="error-message" id="login-email-error"></div>
+                </div>
+                <div class="input-group">
+                    <label for="login-password">Mật khẩu</label>
+                    <input type="password" id="login-password" required>
+                    <div class="error-message" id="login-password-error"></div>
+                </div>
+                <button type="submit" class="btn">Đăng nhập</button>
+                <div class="error-message" id="login-error"></div>
+                <div class="success-message" id="login-success"></div>
+            </form>
+        </div>
+
+        <!-- Form đăng ký -->
+        <div class="form-container" id="registerForm">
+            <h2>Đăng ký</h2>
+            <form id="register-form">
+                <div class="input-group">
+                    <label for="register-username">Tên người dùng</label>
+                    <input type="text" id="register-username" required>
+                    <div class="error-message" id="register-username-error"></div>
+                </div>
+                <div class="input-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" required>
+                    <div class="error-message" id="register-email-error"></div>
+                </div>
+                <div class="input-group">
+                    <label for="register-password">Mật khẩu</label>
+                    <input type="password" id="register-password" required>
+                    <div class="error-message" id="register-password-error"></div>
+                </div>
+                <button type="submit" class="btn">Đăng ký</button>
+                <div class="error-message" id="register-error"></div>
+                <div class="success-message" id="register-success"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Chuyển đổi giữa các tab
+        const tabs = document.querySelectorAll('.tab');
+        const forms = document.querySelectorAll('.form-container');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.dataset.tab;
+                
+                // Cập nhật trạng thái active của tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Hiển thị form tương ứng
+                forms.forEach(form => form.classList.remove('active'));
+                document.getElementById(`${target}Form`).classList.add('active');
+            });
+        });
+
+        // Xử lý đăng ký
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('register-username').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+
+            try {
+                const response = await fetch('http://localhost:5501/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('register-success').textContent = 'Đăng ký thành công!';
+                    document.getElementById('register-success').style.display = 'block';
+                    document.getElementById('register-error').style.display = 'none';
+                    
+                    // Chuyển sang tab đăng nhập sau 1 giây
+                    setTimeout(() => {
+                        document.querySelector('[data-tab="login"]').click();
+                    }, 1000);
+                } else {
+                    document.getElementById('register-error').textContent = data.message;
+                    document.getElementById('register-error').style.display = 'block';
+                    document.getElementById('register-success').style.display = 'none';
+                }
+            } catch (error) {
+                document.getElementById('register-error').textContent = 'Có lỗi xảy ra, vui lòng thử lại';
+                document.getElementById('register-error').style.display = 'block';
+                document.getElementById('register-success').style.display = 'none';
+            }
+        });
+
+        // Xử lý đăng nhập
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                const response = await fetch('http://localhost:5501/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('login-success').textContent = 'Đăng nhập thành công!';
+                    document.getElementById('login-success').style.display = 'block';
+                    document.getElementById('login-error').style.display = 'none';
+
+                    // Lưu token vào localStorage
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+
+                    // Chuyển hướng đến trang chính sau 1 giây
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                } else {
+                    document.getElementById('login-error').textContent = data.message;
+                    document.getElementById('login-error').style.display = 'block';
+                    document.getElementById('login-success').style.display = 'none';
+                }
+            } catch (error) {
+                document.getElementById('login-error').textContent = 'Có lỗi xảy ra, vui lòng thử lại';
+                document.getElementById('login-error').style.display = 'block';
+                document.getElementById('login-success').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html> 
